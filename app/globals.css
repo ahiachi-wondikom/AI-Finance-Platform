@@ -112,6 +112,22 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Hide Clerk DevToast notification */
+.DevToast_content__6svo_,
+.DevToast_message__niw63,
+div[class*="DevToast_content"],
+div[class*="DevToast_message"],
+div[class*="DevToast"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Also hide any toast containers */
+[class*="DevToast"],
+[class*="devtoast"] {
+  display: none !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
