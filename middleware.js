@@ -1,18 +1,33 @@
-// File: middleware.ts (or middleware.js)
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
 
-// Define public routes that should NOT require authentication
-const isPublicRoute = createRouteMatcher([
-	'/sign-in',
-	'/sign-up',
-	'/', // Add your homepage if it should be public
-	// Add any other public routes you need
+const isProtectedRoute = createRouteMatcher([
+	'/dashboard(.*)',
+	'/account(.*)',
+	'/transaction(.*)',
 ])
 
-export default clerkMiddleware((auth, request) => {
-	if (!isPublicRoute(request)) {
-		auth().protect()
+const isPublicRoute = createRouteMatcher(['/', '/sign-in', '/sign-up'])
+
+export default clerkMiddleware(async (auth, req) => {
+	// Allow public routes to pass through
+	if (isPublicRoute(req)) {
+		return NextResponse.next()
 	}
+
+	// For protected routes, check authentication
+	if (isProtectedRoute(req)) {
+		const { userId } = await auth()
+
+		if (!userId) {
+			// Redirect to sign-in if not authenticated
+			const signInUrl = new URL('/sign-in', req.url)
+			signInUrl.searchParams.set('redirect_url', req.url)
+			return NextResponse.redirect(signInUrl)
+		}
+	}
+
+	return NextResponse.next()
 })
 
 export const config = {
