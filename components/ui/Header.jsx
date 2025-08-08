@@ -5,34 +5,45 @@ import {
 	SignUpButton,
 	UserButton,
 } from '@clerk/nextjs'
+import Image from 'next/image'
 import React from 'react'
+import Link from 'next/link'
+import { Button } from './Button'
 
 const Header = () => {
 	return (
-		<header className='flex justify-between items-center px-6 py-4 border-b'>
-			<h1 className='text-lg font-bold'>Welth</h1>
+		<div className='fixed top-0  w-full bg-white/80 backdrop-blur-md z-50 border-b'>
+			<nav className='container mx-auto px-4 py-4 flex items-center justify-between'>
+				<Link href='/'>
+					<Image
+						src={'/logo.png'}
+						alt='Welth logo'
+						height={60}
+						width={200}
+						className='h-12 w-auto object-contain'
+					/>
+				</Link>
 
-			{/* Auth buttons */}
-			<div className='flex items-center gap-4'>
-				<SignedOut>
-					<SignInButton>
-						<button className='text-sm sm:text-base font-medium border border-[#6c47ff] text-[#6c47ff] rounded-full h-10 sm:h-12 px-4 sm:px-5 hover:bg-[#6c47ff]/10 transition'>
-							Sign In
-						</button>
-					</SignInButton>
+				{/* Auth buttons */}
+				<div className='flex items-center gap-4'>
+					<SignedOut>
+						<SignInButton>
+							<Button variant='outline'>Sign In</Button>
+						</SignInButton>
 
-					<SignUpButton>
+						{/* <SignUpButton>
 						<button className='bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 hover:bg-[#5a3ddf] transition'>
 							Sign Up
 						</button>
-					</SignUpButton>
-				</SignedOut>
+					</SignUpButton> */}
+					</SignedOut>
 
-				<SignedIn>
-					<UserButton afterSignOutUrl='/' />
-				</SignedIn>
-			</div>
-		</header>
+					<SignedIn>
+						<UserButton afterSignOutUrl='/' />
+					</SignedIn>
+				</div>
+			</nav>
+		</div>
 	)
 }
 
