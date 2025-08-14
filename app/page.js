@@ -1,10 +1,9 @@
-import Image from 'next/image'
-import { Button } from '../components/ui/Button'
+import HeroSection from '@/components/ui/Hero'
 
 export default function Home() {
 	return (
 		<div className='mt-40'>
-			<Button variant='destructive'>Subscribe to RoadsideCoder</Button>
+			<HeroSection />
 		</div>
 	)
 }

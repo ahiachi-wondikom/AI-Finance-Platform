@@ -11,7 +11,7 @@ import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from './Button'
-import { LayoutDashboard } from 'lucide-react'
+import { LayoutDashboard, PenBox } from 'lucide-react'
 
 const Header = () => {
 	const { isLoaded, isSignedIn } = useUser()
@@ -65,12 +65,23 @@ const Header = () => {
 					</SignedOut>
 
 					<SignedIn>
-						<Link href={'/dashboard'}>
+						<Link
+							href={'/dashboard'}
+							className='text-gray-600 hover:text-blue-600 flex items-center gap-2'
+						>
 							<Button variant='outline'>
 								<LayoutDashboard size={18} />
 								<span className='hidden md:inline'>Dashboard</span>
 							</Button>
 						</Link>
+
+						<Link href={'/transaction/create'}>
+							<Button className='flex items-center gap-2'>
+								<PenBox size={18} />
+								<span className='hidden md:inline'>Add Transaction</span>
+							</Button>
+						</Link>
+
 						<UserButton
 							afterSignOutUrl='/'
 							appearance={{
