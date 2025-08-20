@@ -10,7 +10,6 @@ const HeaderWrapper = () => {
 		const syncUser = async () => {
 			if (isLoaded && isSignedIn && user) {
 				try {
-					console.log('🔄 Starting user sync from client...')
 					console.log('👤 User data:', {
 						id: user.id,
 						firstName: user.firstName,
@@ -34,13 +33,10 @@ const HeaderWrapper = () => {
 					const result = await response.json()
 
 					if (response.ok) {
-						console.log('✅ User synced successfully:', result.user)
-					} else {
-						console.error('❌ Failed to sync user:', result.error)
-						console.error('❌ Full response:', result)
+						console.log(result.user)
 					}
 				} catch (error) {
-					console.error('❌ Error syncing user:', error)
+					console.error(error)
 				}
 			}
 		}
