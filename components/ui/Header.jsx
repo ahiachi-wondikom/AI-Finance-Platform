@@ -1,5 +1,4 @@
 'use client'
-
 import {
 	SignedIn,
 	SignedOut,
@@ -10,16 +9,26 @@ import {
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from './Button'
 import { LayoutDashboard, PenBox } from 'lucide-react'
 
 const Header = () => {
 	const { isLoaded, isSignedIn } = useUser()
 	const [mounted, setMounted] = useState(false)
+	const router = useRouter()
 
 	useEffect(() => {
 		setMounted(true)
 	}, [])
+
+	const handleDashboardClick = () => {
+		router.push('/dashboard')
+	}
+
+	const handleTransactionClick = () => {
+		router.push('/transaction/create')
+	}
 
 	// Don't render until client-side hydration is complete
 	if (!mounted || !isLoaded) {
@@ -56,29 +65,30 @@ const Header = () => {
 						className='h-12 w-auto object-contain'
 					/>
 				</Link>
-
 				<div className='flex items-center gap-4'>
 					<SignedOut>
 						<SignInButton>
 							<Button variant='outline'>Sign In</Button>
 						</SignInButton>
 					</SignedOut>
-
 					<SignedIn>
-						<Link href='/dashboard' passHref>
-							<Button asChild variant='outline'>
-								<span className='flex items-center gap-2'>
-									<LayoutDashboard size={18} />
-									<span className='hidden md:inline'>Dashboard</span>
-								</span>
-							</Button>
-						</Link>
-						<Link href={'/transaction/create'}>
-							<Button className='flex items-center gap-2'>
-								<PenBox size={18} />
-								<span className='hidden md:inline'>Add Transaction</span>
-							</Button>
-						</Link>
+						{/* Using onClick handlers for navigation */}
+						<Button
+							variant='outline'
+							className='flex items-center gap-2'
+							onClick={handleDashboardClick}
+						>
+							<LayoutDashboard size={18} />
+							<span className='hidden md:inline'>Dashboard</span>
+						</Button>
+
+						<Button
+							className='flex items-center gap-2'
+							onClick={handleTransactionClick}
+						>
+							<PenBox size={18} />
+							<span className='hidden md:inline'>Add Transaction</span>
+						</Button>
 
 						<UserButton
 							afterSignOutUrl='/'
