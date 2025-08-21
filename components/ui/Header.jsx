@@ -59,22 +59,20 @@ const Header = () => {
 
 				<div className='flex items-center gap-4'>
 					<SignedOut>
-						<SignInButton forceRedirectUrl='/dashboard'>
+						<SignInButton>
 							<Button variant='outline'>Sign In</Button>
 						</SignInButton>
 					</SignedOut>
 
 					<SignedIn>
-						<Link
-							href={'/dashboard'}
-							className='text-gray-600 hover:text-blue-600 flex items-center gap-2'
-						>
-							<Button variant='outline'>
-								<LayoutDashboard size={18} />
-								<span className='hidden md:inline'>Dashboard</span>
+						<Link href='/dashboard' passHref>
+							<Button asChild variant='outline'>
+								<span className='flex items-center gap-2'>
+									<LayoutDashboard size={18} />
+									<span className='hidden md:inline'>Dashboard</span>
+								</span>
 							</Button>
 						</Link>
-
 						<Link href={'/transaction/create'}>
 							<Button className='flex items-center gap-2'>
 								<PenBox size={18} />

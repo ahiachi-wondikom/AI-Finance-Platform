@@ -9,10 +9,10 @@ CREATE TYPE "public"."TransactionStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILE
 
 -- CreateEnum
 CREATE TYPE "public"."RecurringInterval" AS ENUM ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY');
-
--- CreateTable
+  
+-- CreateTable  
 CREATE TABLE "public"."users" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL,  
     "clerkUserId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
