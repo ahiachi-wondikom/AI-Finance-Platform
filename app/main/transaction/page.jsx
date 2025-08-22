@@ -1,10 +1,8 @@
-// app/transaction/page.tsx
-export default function TransactionPage() {
+export default function CreateTransactionPage() {
 	return (
 		<div>
-			<h1>Transactions</h1>
-			<p>Here are your recent transactions.</p>
+			<h1>Create Transaction</h1>
+			<p>Add a new transaction here!</p>
 		</div>
 	)
 }
-//
