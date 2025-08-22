@@ -1,14 +1,6 @@
-import { auth } from '@clerk/nextjs'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export default function TransactionPage() {
-	const { userId } = auth()
-
-	if (!userId) {
-		redirect('/sign-in')
-	}
-
 	return (
 		<div>
 			<h1>Transactions Work!</h1>

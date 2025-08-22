@@ -23,11 +23,11 @@ const Header = () => {
 	}, [])
 
 	const handleDashboardClick = () => {
-		router.push('/dashboard')
+		router.push('/main/dashboard')
 	}
 
 	const handleTransactionClick = () => {
-		router.push('/transaction/create')
+		router.push('/main/transaction/create')
 	}
 
 	// Don't render until client-side hydration is complete
