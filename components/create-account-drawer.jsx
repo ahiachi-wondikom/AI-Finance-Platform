@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import {
 	Drawer,
+	DrawerClose,
 	DrawerContent,
 	DrawerHeader,
 	DrawerTitle,
@@ -17,8 +18,10 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@radix-ui/react-select'
+} from './ui/Select'
 import { useForm } from 'react-hook-form'
+import { Switch } from './ui/Switch'
+import { Button } from './ui/Button'
 
 const CreateAccountDrawer = ({ children }) => {
 	const [open, setOpen] = useState(false)
@@ -39,6 +42,9 @@ const CreateAccountDrawer = ({ children }) => {
 			isDefault: false,
 		},
 	})
+	const onSubmit = async (data) => {
+		console.log(data)
+	}
 
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
@@ -48,7 +54,7 @@ const CreateAccountDrawer = ({ children }) => {
 					<DrawerTitle>Create New Account</DrawerTitle>
 				</DrawerHeader>
 				<div className='px-4 pb-4'>
-					<form className='space-y-4'>
+					<form className='space-y-4' onSubmit={handleSubmit(onSubmit)}>
 						<div className='space-y-2'>
 							<label htmlFor='name' className='text-sm font-medium'>
 								Account Name
@@ -75,13 +81,60 @@ const CreateAccountDrawer = ({ children }) => {
 									<SelectValue placeholder='Select Type' />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value='Current'>Current</SelectItem>
-									<SelectItem value='Savings'>Savings</SelectItem>
+									<SelectItem value='CURRENT'>Current</SelectItem>
+									<SelectItem value='SAVINGS'>Savings</SelectItem>
 								</SelectContent>
 							</Select>
 							{errors.type && (
 								<p className='text-sm text-red-500'>{errors.type.message}</p>
 							)}
+						</div>
+
+						<div className='space-y-2'>
+							<label htmlFor='name' className='text-sm font-medium'>
+								Initial Balance
+							</label>
+							<Input
+								id='name'
+								type='number'
+								step='0.01'
+								placeholder='0.00'
+								{...register('balance')}
+							/>
+							{errors.balance && (
+								<p className='text-sm text-red-500'>{errors.balance.message}</p>
+							)}
+						</div>
+
+						<div className='flex items-center justify-between rounded-lg border p-3'>
+							<div>
+								<label
+									htmlFor='balance'
+									className='text-sm font-medium cursor-pointer'
+								>
+									Set as default
+								</label>
+
+								<p className='text-sm text-muted-foreground'>
+									This account will be selected by default for transaction
+								</p>
+							</div>
+
+							<Switch
+								id='isDefault'
+								onCheckedChange={(checked) => setValue('isDefault', checked)}
+								defaultChecked={watch('isDefault')}
+							/>
+						</div>
+						<div className='flex gap-2'>
+							<DrawerClose asChild>
+								<Button type='button' variant='outline' className='flex-1'>
+									Cancel
+								</Button>
+							</DrawerClose>
+							<Button type='Submit' className='flex-1'>
+								Create Account
+							</Button>
 						</div>
 					</form>
 				</div>
