@@ -22,6 +22,8 @@ import {
 import { useForm } from 'react-hook-form'
 import { Switch } from './ui/Switch'
 import { Button } from './ui/Button'
+import useFetch from './hooks/use-fetch'
+import { createAccount } from '@/actions/dashboard'
 
 const CreateAccountDrawer = ({ children }) => {
 	const [open, setOpen] = useState(false)
@@ -42,8 +44,16 @@ const CreateAccountDrawer = ({ children }) => {
 			isDefault: false,
 		},
 	})
+
+	const {
+		data: newAccount,
+		error,
+		fn: createAccountFn,
+		loading: createAccountLoading,
+	} = useFetch(createAccount)
+
 	const onSubmit = async (data) => {
-		console.log(data)
+		await createAccountFn(data)
 	}
 
 	return (
@@ -133,7 +143,14 @@ const CreateAccountDrawer = ({ children }) => {
 								</Button>
 							</DrawerClose>
 							<Button type='Submit' className='flex-1'>
-								Create Account
+								{createAccountLoading ? (
+									<>
+										<Loader2 className='mr-2 h-4 w-4 animate-spin' />
+										Creating...
+									</>
+								) : (
+									'Create Account'
+								)}
 							</Button>
 						</div>
 					</form>
@@ -142,5 +159,4 @@ const CreateAccountDrawer = ({ children }) => {
 		</Drawer>
 	)
 }
-
 export default CreateAccountDrawer
