@@ -67,7 +67,7 @@ const CreateAccountDrawer = ({ children }) => {
 		if (error) {
 			toast.error(error.message || 'Failed to create account')
 		}
-	})
+	}, [error])
 
 	const onSubmit = async (data) => {
 		toast.info('Form submitted!') // ← Add this test line
@@ -81,29 +81,24 @@ const CreateAccountDrawer = ({ children }) => {
 					<DrawerTitle>Create New Account</DrawerTitle>
 				</DrawerHeader>
 				<div className='px-4 pb-4'>
-					<form className='space-y-4' onSubmit={handleSubmit(onSubmit)}>
+					<form action={createAccount} className='space-y-4'>
 						<div className='space-y-2'>
 							<label htmlFor='name' className='text-sm font-medium'>
 								Account Name
 							</label>
 							<Input
 								id='name'
+								name='name'
 								placeholder='e.g., Main Checking'
-								{...register('name')}
+								required
 							/>
-							{errors.name && (
-								<p className='text-sm text-red-500'>{errors.name.message}</p>
-							)}
 						</div>
 
 						<div className='space-y-2'>
 							<label htmlFor='type' className='text-sm font-medium'>
 								Account Type
 							</label>
-							<Select
-								onValueChange={(value) => setValue('type', value)}
-								defaultValue={watch('type')}
-							>
+							<Select name='type' required>
 								<SelectTrigger id='type'>
 									<SelectValue placeholder='Select Type' />
 								</SelectTrigger>
@@ -112,66 +107,45 @@ const CreateAccountDrawer = ({ children }) => {
 									<SelectItem value='SAVINGS'>Savings</SelectItem>
 								</SelectContent>
 							</Select>
-							{errors.type && (
-								<p className='text-sm text-red-500'>{errors.type.message}</p>
-							)}
 						</div>
 
 						<div className='space-y-2'>
-							<label htmlFor='name' className='text-sm font-medium'>
+							<label htmlFor='balance' className='text-sm font-medium'>
 								Initial Balance
 							</label>
 							<Input
-								id='name'
+								id='balance'
+								name='balance'
 								type='number'
 								step='0.01'
 								placeholder='0.00'
-								{...register('balance')}
+								required
 							/>
-							{errors.balance && (
-								<p className='text-sm text-red-500'>{errors.balance.message}</p>
-							)}
 						</div>
 
 						<div className='flex items-center justify-between rounded-lg border p-3'>
 							<div>
 								<label
-									htmlFor='balance'
+									htmlFor='isDefault'
 									className='text-sm font-medium cursor-pointer'
 								>
 									Set as default
 								</label>
-
 								<p className='text-sm text-muted-foreground'>
 									This account will be selected by default for transaction
 								</p>
 							</div>
-
-							<Switch
-								id='isDefault'
-								onCheckedChange={(checked) => setValue('isDefault', checked)}
-								defaultChecked={watch('isDefault')}
-							/>
+							<Switch id='isDefault' name='isDefault' />
 						</div>
+
 						<div className='flex gap-2 pt-4'>
 							<DrawerClose asChild>
 								<Button type='button' variant='outline' className='flex-1'>
 									Cancel
 								</Button>
 							</DrawerClose>
-							<Button
-								type='Submit'
-								className='flex-1'
-								disabled={createAccountLoading}
-							>
-								{createAccountLoading ? (
-									<>
-										<Loader2 className='mr-2 h-4 w-4 animate-spin' />
-										Creating...
-									</>
-								) : (
-									'Create Account'
-								)}
+							<Button type='submit' className='flex-1'>
+								Create Account
 							</Button>
 						</div>
 					</form>
