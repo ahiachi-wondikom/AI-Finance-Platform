@@ -13,8 +13,18 @@ const serializeAccount = (obj) => {
 }
 
 export async function createAccount(data) {
-	console.log('⚡ createAccount CALLED with:', data)
+	console.log(
+		'⚡ createAccount CALLED with:',
+		data.get('name'),
+		data.get('type'),
+		data.get('balance'),
+		data.get('isDefault')
+	)
 	try {
+		const name = data.get('name')
+		const type = data.get('type')
+		const balance = data.get('balance')
+		const isDefault = data.get('isDefault') === 'on' ? true : false // Checkbox returns 'on' if checked
 		// ✅ Get logged-in user from Clerk
 		const user = await currentUser()
 		console.log('🔑 Clerk currentUser:', user)
@@ -31,7 +41,7 @@ export async function createAccount(data) {
 		}
 
 		// ✅ Convert balance to float
-		const balanceFloat = parseFloat(data.balance)
+		const balanceFloat = parseFloat(balance)
 		if (isNaN(balanceFloat)) {
 			throw new Error('Invalid balance amount')
 		}
@@ -41,8 +51,7 @@ export async function createAccount(data) {
 			where: { userId: dbUser.id },
 		})
 
-		const shouldBeDefault =
-			existingAccounts.length === 0 ? true : data.isDefault
+		const shouldBeDefault = existingAccounts.length === 0 ? true : isDefault
 
 		if (shouldBeDefault) {
 			// unset old default accounts
@@ -55,8 +64,8 @@ export async function createAccount(data) {
 		// ✅ Create account
 		const account = await db.account.create({
 			data: {
-				name: data.name,
-				type: data.type,
+				name: name,
+				type: type,
 				balance: balanceFloat,
 				isDefault: shouldBeDefault,
 				userId: dbUser.id,

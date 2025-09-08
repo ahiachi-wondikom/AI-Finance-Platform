@@ -70,8 +70,19 @@ const CreateAccountDrawer = ({ children }) => {
 	}, [error])
 
 	const onSubmit = async (data) => {
-		toast.info('Form submitted!') // ← Add this test line
-		await createAccountFn(data)
+		//  // ← Add this test line
+		await createAccount(data)
+			.then((res) => {
+				toast.info('Form submitted!')
+
+				setOpen(false)
+				console.log(res)
+			})
+			.catch((err) => {
+				console.error(err)
+				toast.error(err.message || 'Failed to create account')
+			})
+		console.log('Form submitted with data:', data.get('name')) // ← Log the form data
 	}
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
@@ -81,7 +92,7 @@ const CreateAccountDrawer = ({ children }) => {
 					<DrawerTitle>Create New Account</DrawerTitle>
 				</DrawerHeader>
 				<div className='px-4 pb-4'>
-					<form action={createAccount} className='space-y-4'>
+					<form action={onSubmit} className='space-y-4'>
 						<div className='space-y-2'>
 							<label htmlFor='name' className='text-sm font-medium'>
 								Account Name
