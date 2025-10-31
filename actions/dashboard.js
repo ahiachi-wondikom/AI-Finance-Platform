@@ -54,7 +54,6 @@ export async function createAccount(data) {
 		const shouldBeDefault = existingAccounts.length === 0 ? true : isDefault
 
 		if (shouldBeDefault) {
-			// unset old default accounts
 			await db.account.updateMany({
 				where: { userId: dbUser.id, isDefault: true },
 				data: { isDefault: false },
