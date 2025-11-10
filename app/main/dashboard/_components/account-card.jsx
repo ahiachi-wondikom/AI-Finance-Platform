@@ -58,7 +58,7 @@ const AccountCard = ({ account }) => {
 					disabled={updateDefaultLoading}
 				/>
 			</CardHeader>
-			<Link href={`/account/${id}`}>
+			<Link href={`/main/account/${id}`}>
 				<CardContent>
 					<div className='text-2xl font-bold'>
 						${parseFloat(balance).toFixed(2)}
