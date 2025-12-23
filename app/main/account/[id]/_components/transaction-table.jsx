@@ -1,3 +1,6 @@
+'use client'
+
+import { Checkbox } from '@/components/ui/Checkbox'
 import {
 	Table,
 	TableBody,
@@ -10,27 +13,76 @@ import {
 import React from 'react'
 
 const TransactionTable = ({ transactions }) => {
+	const filteredAndSortedtransactions = transactions
+
+	const handleSort = () => {}
+
 	return (
-		<div>
-			<Table>
-				<TableCaption>A list of your recent invoices.</TableCaption>
-				<TableHeader>
-					<TableRow>
-						<TableHead className='w-[100px]'>Invoice</TableHead>
-						<TableHead>Status</TableHead>
-						<TableHead>Method</TableHead>
-						<TableHead className='text-right'>Amount</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					<TableRow>
-						<TableCell className='font-medium'>INV001</TableCell>
-						<TableCell>Paid</TableCell>
-						<TableCell>Credit Card</TableCell>
-						<TableCell className='text-right'>$250.00</TableCell>
-					</TableRow>
-				</TableBody>
-			</Table>
+		<div className='space-y-4'>
+			{/* Filters */}
+
+			{/* Transactions */}
+			<div className='rounded-md border'>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead className='w-[50px]'>
+								<Checkbox />
+							</TableHead>
+							<TableHead
+								className='cursor-pointer'
+								onClick={() => handleSort('date')}
+							>
+								<div className='flex items-center'>Date</div>
+							</TableHead>
+							<TableHead>Description</TableHead>
+							<TableHead
+								className='cursor-pointer'
+								onClick={() => handleSort('category')}
+							>
+								<div className='flex items-center'>Category</div>
+							</TableHead>
+							<TableHead
+								className='cursor-pointer'
+								onClick={() => handleSort('amount')}
+							>
+								<div className='flex items-center justify-end'>Amount</div>
+							</TableHead>
+							<TableHead>Recurring</TableHead>
+							<TableHead className='w-[50px]' />
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{filteredAndSortedtransactions.length === 0 ? (
+							<TableRow>
+								<TableCell
+									colSpan={7}
+									className='text-center text-muted-foreground'
+								>
+									No transaction found
+								</TableCell>
+							</TableRow>
+						) : (
+							filteredAndSortedtransactions.map((transaction) => (
+								<TableRow key={transaction.id}>
+									<TableCell>
+										<Checkbox />
+									</TableCell>
+									<TableCell className='font-medium'>INV001</TableCell>
+									<TableCell>
+										{format(new Date(transaction.date), 'PP')}
+									</TableCell>
+									<TableCell>{transaction.description}</TableCell>
+									<TableCell>{transaction.category}</TableCell>
+									<TableCell className='text-right'>$250.00</TableCell>
+									<TableCell />
+									<TableCell />
+								</TableRow>
+							))
+						)}
+					</TableBody>
+				</Table>
+			</div>
 		</div>
 	)
 }
