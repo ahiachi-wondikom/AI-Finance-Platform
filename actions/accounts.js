@@ -53,12 +53,17 @@ export async function updateDefaultAccount(accountId) {
 
 export async function getAccountWithTransactions(accountId) {
 	const { userId } = await auth()
-
 	if (!userId) throw new Error('Unauthorized')
+
+	console.log('🔍 getAccountWithTransactions called')
+	console.log('  - Looking for accountId:', accountId)
+	console.log('  - Clerk userId:', userId)
 
 	const user = await db.user.findUnique({
 		where: { clerkUserId: userId },
 	})
+
+	console.log('  - Database user found:', user?.id)
 
 	if (!user) {
 		throw new Error('User not found')
@@ -75,6 +80,11 @@ export async function getAccountWithTransactions(accountId) {
 			},
 		},
 	})
+
+	console.log('  - Account found:', account?.name)
+	console.log('  - Account userId:', account?.userId)
+	console.log('  - Transactions count:', account?.transactions?.length)
+	console.log('  - First transaction:', account?.transactions?.[0])
 
 	if (!account) return null
 

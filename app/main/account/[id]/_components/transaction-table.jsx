@@ -1,5 +1,6 @@
 'use client'
 
+import { categoryColors } from '@/components/data/categories'
 import { Checkbox } from '@/components/ui/Checkbox'
 import {
 	Table,
@@ -15,13 +16,13 @@ import React from 'react'
 const TransactionTable = ({ transactions }) => {
 	const filteredAndSortedtransactions = transactions
 
+	console.log('Transactions:', transactions)
+	console.log('Available categoryColors:', categoryColors)
+	console.log('First transaction category:', transactions[0]?.category)
 	const handleSort = () => {}
 
 	return (
 		<div className='space-y-4'>
-			{/* Filters */}
-
-			{/* Transactions */}
 			<div className='rounded-md border'>
 				<Table>
 					<TableHeader>
@@ -74,7 +75,25 @@ const TransactionTable = ({ transactions }) => {
 									</TableCell>
 									<TableCell>{transaction.description}</TableCell>
 									<TableCell>{transaction.category}</TableCell>
-									<TableCell className='text-right'>$250.00</TableCell>
+									<TableCell className='capitalize'>
+										<span
+											style={{
+												background: categoryColors[transaction.category],
+											}}
+											className='px-2 py-1 rounded text-white text-sm'
+										>
+											{transaction.category}
+										</span>
+									</TableCell>
+									<TableCell
+										className='text-right font-medium'
+										style={{
+											color: transaction.type === 'EXPENSE' ? 'red' : 'green',
+										}}
+									>
+										{transaction.type === 'EXPENSE' ? '-' : '+'}$
+										{transaction.amount.toFixed(2)}
+									</TableCell>
 									<TableCell />
 									<TableCell />
 								</TableRow>
